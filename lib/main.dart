@@ -378,62 +378,7 @@ class _DesignHomePageState extends State<DesignHomePage> {
     );
   }
 
-  Widget _buildFavoritesGrid() {
-    return _favorites.isEmpty
-        ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.favorite_border, size: 60, color: Colors.grey[400]),
-                const SizedBox(height: 16),
-                Text(
-                  'No favorites yet',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Tap the heart icon to save designs',
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ],
-            ),
-          )
-        : GridView.builder(
-            padding: const EdgeInsets.all(16),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 0.8,
-            ),
-            itemCount: _favorites.length,
-            itemBuilder: (context, index) {
-              return _buildDesignItem(_favorites[index]);
-            },
-          );
-  }
 
-  Widget _buildCommunityDesignsGrid() {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 0.8,
-      ),
-      itemCount: _communityDesigns.length,
-      itemBuilder: (context, index) {
-        return _buildCommunityDesignItem(_communityDesigns[index]);
-      },
-    );
-  }
 
   Widget _buildTrendingProductsList() {
     return ListView.builder(
