@@ -809,59 +809,7 @@ class _DesignHomePageState extends State<DesignHomePage> {
     );
   }
 
-  Widget _buildCommunityTab() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Community Designs',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          _buildCommunityDesignsGrid(),
-          const SizedBox(height: 24),
-          const Text(
-            'Upload Your Design',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Share your design with the community and get feedback',
-            style: TextStyle(
-              color: Colors.black54,
-            ),
-          ),
-          const SizedBox(height: 16),
-          OutlinedButton(
-            onPressed: _pickImage,
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(color: Colors.teal[400]!),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 14),
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.upload),
-                SizedBox(width: 8),
-                Text('Share Your Design'),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+ 
 
   Widget _buildProductsTab() {
     return SingleChildScrollView(
