@@ -35,7 +35,7 @@ class DesignHomePage extends StatefulWidget {
 }
 
 class _DesignHomePageState extends State<DesignHomePage> {
-  final String _apiKey = "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";
+  final String _apiKey = "";
   
   Uint8List? _imageBytes;
   bool _isLoading = false;
