@@ -35,7 +35,7 @@ class DesignHomePage extends StatefulWidget {
 }
 
 class _DesignHomePageState extends State<DesignHomePage> {
-  final String _apiKey = "";
+  final String _apiKey = "your-api-key-here";
   
   Uint8List? _imageBytes;
   bool _isLoading = false;
@@ -378,7 +378,6 @@ class _DesignHomePageState extends State<DesignHomePage> {
     );
   }
 
-// shoaib 4955
   Widget _buildFavoritesGrid() {
     return _favorites.isEmpty
         ? Center(
@@ -386,10 +385,7 @@ class _DesignHomePageState extends State<DesignHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.favorite_border, size: 60, color: Colors.grey[400]),
-
-
-
-
+                const SizedBox(height: 16),
                 Text(
                   'No favorites yet',
                   style: TextStyle(
@@ -739,7 +735,198 @@ class _DesignHomePageState extends State<DesignHomePage> {
     );
   }
 
+  Widget _build3DVisualization() {
+    return Column(
+      children: [
+        const Text(
+          '3D Room Visualization',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          height: 220,
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                blurRadius: 10,
+                spreadRadius: 2,
+              )
+            ],
+          ),
+          child: Stack(
+            children: [
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.photo_camera_back, size: 60, color: Colors.grey[400]),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Visualize your room in 3D',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigo[600],
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    ),
+                    child: const Text('Start 3D Room'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        const Text(
+          'Drag and drop furniture items to customize your space',
+          style: TextStyle(
+            color: Colors.black54,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      ],
+    );
+  }
 
+  Widget _buildDesignTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  const Text(
+                    'Upload Room Image',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildImagePreview(),
+                  const SizedBox(height: 16),
+                  _buildImageSourceButtons(),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: _isLoading ? null : _generateDesigns,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.teal[600],
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 4,
+            ),
+            child: _isLoading
+                ? const SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 3,
+                    ),
+                  )
+                : const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.auto_awesome, size: 24),
+                      SizedBox(width: 8),
+                      Text(
+                        'Generate Design Suggestions',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+          ),
+          if (_errorMessage != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.red[50],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.error_outline, color: Colors.red[400]),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        _errorMessage!,
+                        style: TextStyle(
+                          color: Colors.red[800],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          const SizedBox(height: 24),
+          if (_generatedDesigns.isNotEmpty) ...[
+            const Text(
+              'Generated Designs:',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildGeneratedDesignsGrid(),
+            const SizedBox(height: 16),
+            OutlinedButton(
+              onPressed: _clearAll,
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: Colors.grey[400]!),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              child: const Text('Clear All'),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 
   Widget _buildFavoritesTab() {
     return _favorites.isEmpty
@@ -763,7 +950,161 @@ class _DesignHomePageState extends State<DesignHomePage> {
           );
   }
 
+  Widget _buildEmptyFavorites() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.favorite_border, size: 60, color: Colors.grey[400]),
+          const SizedBox(height: 16),
+          const Text(
+            'No favorites yet',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Text(
+              'Tap the heart icon on designs to save them here for future reference',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 16,
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () {
+              DefaultTabController.of(context).animateTo(0);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.teal[600],
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            ),
+            child: const Text('Explore Designs'),
+          ),
+        ],
+      ),
+    );
+  }
 
+  Widget _buildCommunityTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Community Designs',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _buildCommunityDesignsGrid(),
+          const SizedBox(height: 24),
+          const Text(
+            'Upload Your Design',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Share your design with the community and get feedback',
+            style: TextStyle(
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 16),
+          OutlinedButton(
+            onPressed: _pickImage,
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: Colors.teal[400]!),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.upload),
+                SizedBox(width: 8),
+                Text('Share Your Design'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductsTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Trending Products',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Popular items our community is loving right now',
+            style: TextStyle(
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _buildTrendingProductsList(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVisualizationTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _build3DVisualization(),
+          const SizedBox(height: 24),
+          const Text(
+            'Color Palettes',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Try these popular color combinations in your space',
+            style: TextStyle(
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _buildColorPalettesGrid(),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
